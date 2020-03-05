@@ -1,0 +1,562 @@
+[MASTER]
+
+# Specify a configuration file.
+#rcfile=
+
+# Python code to execute, usually for sys.path manipulation such as
+# pygtk.require().
+#init-hook=
+#init-hook='import sys; sys.path.append("./pylint-plugins")'
+
+# Add files or directories to the blacklist. They should be base names, not
+# paths.
+ignore=rdklib,liborbiter,EC2_MANAGEDINSTANCE_INVENTORY_BLACKLISTED.py,EC2_MANAGEDINSTANCE_WINDOWS_UPDATE_CHECK.py,EC2_VOLUME_INUSE_CHECK.py,ELB_LOGGING_ENABLED.py,FMS_WEBACL_RULEGROUP_ASSOCIATION_CHECK.py,IAM_POLICY_BLACKLISTED_CHECK.py,IAM_ROLE_MANAGED_POLICY_CHECK.py,IAM_USER_GROUP_MEMBERSHIP_CHECK.py,IAM_USER_NO_POLICIES_CHECK.py,RDS_INSTANCE_PUBLIC_ACCESS_CHECK.py,REDSHIFT_CLUSTER_CONFIGURATION_CHECK.py,REDSHIFT_CLUSTER_MAINTENANCESETTINGS_CHECK.py,ALB_HTTP_TO_HTTPS_REDIRECTION_CHECK.py,APIGW_CACHING_SETTINGS.py,API_GW_CACHE_ENABLED_AND_ENCRYPTED.py,API_GW_ENDPOINT_TYPE_CHECK.py,BUSINESS_SUPPORT_OR_ABOVE_ENABLED.py,CLOUDFRONT_VIEWER_POLICY_HTTPS.py,CODEBUILD_PROJECT_ENVVAR_AWSCRED_CHECK.py,CODEBUILD_PROJECT_SOURCE_REPO_URL_CHECK.py,DYNAMODB_TABLE_ENCRYPTION_ENABLED.py,EBS_SNAPSHOT_PUBLIC_RESTORABLE_CHECK.py,EC2_INSTANCE_DETAILED_MONITORING_ENABLED.py,EC2_INSTANCE_NO_PUBLIC_IP.py,EC2_MANAGEDINSTANCE_ASSOCIATION_COMPLIANCE_STATUS_CHECK.py,EC2_MANAGEDINSTANCE_PATCH_COMPLIANCE_STATUS_CHECK.py,EC2_SECURITY_GROUP_ATTACHED_TO_ENI.py,ELASTICACHE_REDIS_CLUSTER_AUTO_BACKUP_CHECK.py,ELASTICSEARCH_ENCRYPTED_AT_REST.py,ELASTICSEARCH_IN_VPC_ONLY.py,ELB_DELETION_PROTECTION_ENABLED.py,FMS_WEBACL_RESOURCE_POLICY_CHECK.py,GUARDDUTY_ENABLED_CENTRALIZED.py,IAM_ROOT_ACCESS_KEY_CHECK.py,INTERNET_GATEWAY_AUTHORIZED_ONLY.py,KMS_CMK_NOT_SCHEDULED_FOR_DELETION.py,KMS_KEYS_NOT_SCHEDULED_FOR_DELETION.py,LAMBDA_DLQ_CHECK.py,LAMBDA_INSIDE_VPC.py,REDSHIFT_CLUSTER_PUBLIC_ACCESS_CHECK.py,S3_BUCKET_LIFECYCLE_POLICY.py,S3_BUCKET_REPLICATION_ENABLED.py,SAGEMAKER_NOTEBOOK_NO_DIRECT_INTERNET_ACCESS.py,SHIELD_ADVANCED_ENABLED_AUTORENEW.py,SHIELD_DRT_ACCESS.py,SNS_TOPIC_EMAIL_SUB_IN_DOMAINS.py,VPC_DEFAULT_SECURITY_GROUP_CLOSED.py,VPC_SG_OPEN_ONLY_TO_AUTHORIZED_PORTS.py,VPC_VPN_2_TUNNELS_UP.py,APIGW_THROTTLING_CHECK.py,EMR_KERBEROS_ENABLED.py,FMS_SHIELD_RESOURCE_POLICY_CHECK.py,RDS_ENHANCED_MONITORING_ENABLED.py,SAGEMAKER_ENDPOINT_CONFIGURATION_KMS_KEY_CONFIGURED.py,SAGEMAKER_NOTEBOOK_INSTANCE_KMS_KEY_CONFIGURED.py,BUSINESS_OR_ENTERPRISE_SUPPORT_PLAN_ENABLED.py,DMS_REPLICATION_NOT_PUBLIC.py,EC2_INSTANCE_MANAGED_BY_SSM.py,GUARDDUTY_NON_ARCHIVED_FINDINGS.py,INTERNET_GATEWAY_AUTHORIZED_VPC_ONLY.py,SECRETSMANAGER_MAX_SECRET_AGE.py,API_GW_EXECUTION_LOGGING_ENABLED.py,EMR_MASTER_NO_PUBLIC_IP.py,LAMBDA_CONCURRENCY_CHECK.py,SERVICE_VPC_ENDPOINT_ENABLED.py,ACM_CERTIFICATE_EXPIRATION_CHECK_test.py,ALB_HTTP_TO_HTTPS_REDIRECTION_CHECK_test.py,APIGW_CACHING_SETTINGS_test.py,APIGW_THROTTLING_CHECK_test.py,API_GW_CACHE_ENABLED_AND_ENCRYPTED_test.py,API_GW_ENDPOINT_TYPE_CHECK_test.py,API_GW_EXECUTION_LOGGING_ENABLED_test.py,BUSINESS_OR_ENTERPRISE_SUPPORT_PLAN_ENABLED_test.py,BUSINESS_SUPPORT_OR_ABOVE_ENABLED_test.py,CLOUDFRONT_VIEWER_POLICY_HTTPS_test.py,CLOUDTRAIL_S3_DATAEVENTS_ENABLED_test.py,CLOUDWATCH_LOG_GROUP_ENCRYPTED_test.py,CODEBUILD_PROJECT_ENVVAR_AWSCRED_CHECK_test.py,CODEBUILD_PROJECT_SOURCE_REPO_URL_CHECK_test.py,DMS_REPLICATION_NOT_PUBLIC_test.py,DYNAMODB_TABLE_ENCRYPTION_ENABLED_test.py,EBS_SNAPSHOT_PUBLIC_RESTORABLE_CHECK_test.py,EC2_INSTANCE_DETAILED_MONITORING_ENABLED_test.py,EC2_INSTANCE_MANAGED_BY_SSM_test.py,EC2_INSTANCE_NO_PUBLIC_IP_test.py,EC2_MANAGEDINSTANCE_ASSOCIATION_COMPLIANCE_STATUS_CHECK_test.py,EC2_MANAGEDINSTANCE_INVENTORY_BLACKLISTED_test.py,EC2_MANAGEDINSTANCE_PATCH_COMPLIANCE_STATUS_CHECK_test.py,EC2_MANAGEDINSTANCE_WINDOWS_UPDATE_CHECK_test.py,EC2_SECURITY_GROUP_ATTACHED_TO_ENI_test.py,EC2_STOPPED_INSTANCE_test.py,EC2_VOLUME_INUSE_CHECK_test.py,EFS_ENCRYPTED_CHECK_test.py,ELASTICACHE_REDIS_CLUSTER_AUTOMATIC_BACKUP_CHECK_test.py,ELASTICACHE_REDIS_CLUSTER_AUTO_BACKUP_CHECK_test.py,ELASTICSEARCH_ENCRYPTED_AT_REST_test.py,ELASTICSEARCH_IN_VPC_ONLY_test.py,ELB_DELETION_PROTECTION_ENABLED_test.py,ELB_LOGGING_ENABLED_test.py,EMR_KERBEROS_ENABLED_test.py,EMR_MASTER_NO_PUBLIC_IP_test.py,FMS_SHIELD_RESOURCE_POLICY_CHECK_test.py,FMS_WEBACL_RESOURCE_POLICY_CHECK_test.py,FMS_WEBACL_RULEGROUP_ASSOCIATION_CHECK_test.py,GUARDDUTY_ENABLED_CENTRALIZED_test.py,GUARDDUTY_NON_ARCHIVED_FINDINGS_test.py,IAM_POLICY_BLACKLISTED_CHECK_test.py,IAM_ROLE_MANAGED_POLICY_CHECK_test.py,IAM_ROOT_ACCESS_KEY_CHECK_test.py,IAM_USER_GROUP_MEMBERSHIP_CHECK_test.py,IAM_USER_NO_POLICIES_CHECK_test.py,INTERNET_GATEWAY_AUTHORIZED_ONLY_test.py,INTERNET_GATEWAY_AUTHORIZED_VPC_ONLY_test.py,KMS_CMK_NOT_SCHEDULED_FOR_DELETION_test.py,KMS_KEYS_NOT_SCHEDULED_FOR_DELETION_test.py,LAMBDA_CONCURRENCY_CHECK_test.py,LAMBDA_DLQ_CHECK_test.py,LAMBDA_INSIDE_VPC_test.py,RDS_ENHANCED_MONITORING_ENABLED_test.py,RDS_INSTANCE_PUBLIC_ACCESS_CHECK_test.py,REDSHIFT_CLUSTER_PUBLIC_ACCESS_CHECK_test.py,S3_ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS_test.py,S3_BUCKET_REPLICATION_ENABLED_test.py,SAGEMAKER_ENDPOINT_CONFIGURATION_KMS_KEY_CONFIGURED_test.py,SAGEMAKER_NOTEBOOK_INSTANCE_KMS_KEY_CONFIGURED_test.py,SAGEMAKER_NOTEBOOK_NO_DIRECT_INTERNET_ACCESS_test.py,SECRETSMANAGER_MAX_SECRET_AGE_test.py,SERVICE_VPC_ENDPOINT_ENABLED_test.py,SHIELD_ADVANCED_ENABLED_AUTORENEW_test.py,SHIELD_DRT_ACCESS_test.py,SNS_TOPIC_EMAIL_SUB_IN_DOMAINS_test.py,VPC_DEFAULT_SECURITY_GROUP_CLOSED_test.py,VPC_SG_OPEN_ONLY_TO_AUTHORIZED_PORTS_test.py,VPC_VPN_2_TUNNELS_UP_test.py,S3_BUCKET_LIFECYCLE_POLICY_test.py,sample_test.py #,REDSHIFT_CLUSTER_CONFIGURATION_CHECK_test.py
+
+# Add files or directories matching the regex patterns to the blacklist. The
+# regex matches against base names, not paths.
+ignore-patterns=lib.*
+
+# Pickle collected data for later comparisons.
+persistent=no
+
+# List of plugins (as comma separated values of python modules names) to load,
+# usually to register additional checkers.
+load-plugins=aws_config_rules_python_linter.gherkin_not_compliant,
+             aws_config_rules_python_linter.rdk_functions_not_up_to_date,
+             aws_config_rules_python_linter.testcase_naming_not_compliant
+
+# Use multiple processes to speed up Pylint.
+jobs=1
+
+# Allow loading of arbitrary C extensions. Extensions are imported into the
+# active Python interpreter and may run arbitrary code.
+unsafe-load-any-extension=no
+
+# A comma-separated list of package or module names from where C extensions may
+# be loaded. Extensions are loading into the active Python interpreter and may
+# run arbitrary code
+extension-pkg-whitelist=
+
+
+[MESSAGES CONTROL]
+
+# Only show warnings with the listed confidence levels. Leave empty to show
+# all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED
+#confidence=HIGH
+
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifiers separated by comma (,) or put this
+# option multiple times (only on the command line, not in the configuration
+# file where it should appear only once).You can also use "--disable=all" to
+# disable everything first and then reenable specific checks. For example, if
+# you want to run only the similarities checker, you can use "--disable=all
+# --enable=similarities". If you want to run only the classes checker, but have
+# no Warning level messages displayed, use"--disable=all --enable=classes
+# --disable=W"
+disable=all
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once). See also the "--disable" option for examples.
+enable=import-error,
+       gherkin-not-compliant,
+       test-case-naming-not-compliant,
+       rdk-functions-not-up-to-date,
+       import-self,
+       reimported,
+       wildcard-import,
+       misplaced-future,
+       deprecated-module,
+       unpacking-non-sequence,
+       invalid-all-object,
+       undefined-all-variable,
+       used-before-assignment,
+       cell-var-from-loop,
+       global-variable-undefined,
+       redefine-in-handler,
+       unused-import,
+       unused-wildcard-import,
+       global-variable-not-assigned,
+       undefined-loop-variable,
+       global-statement,
+       global-at-module-level,
+       bad-open-mode,
+       redundant-unittest-assert,
+       boolean-datetime
+       deprecated-method,
+       anomalous-unicode-escape-in-string,
+       anomalous-backslash-in-string,
+       not-in-loop,
+       continue-in-finally,
+       abstract-class-instantiated,
+       star-needs-assignment-target,
+       duplicate-argument-name,
+       return-in-init,
+       too-many-star-expressions,
+       nonlocal-and-global,
+       return-outside-function,
+       return-arg-in-generator,
+       invalid-star-assignment-target,
+       bad-reversed-sequence,
+       nonexistent-operator,
+       yield-outside-function,
+       init-is-generator,
+       nonlocal-without-binding,
+       lost-exception,
+       assert-on-tuple,
+       dangerous-default-value,
+       duplicate-key,
+       useless-else-on-loop
+       expression-not-assigned,
+       confusing-with-statement,
+       unnecessary-lambda,
+       pointless-statement,
+       pointless-string-statement,
+       unnecessary-pass,
+       unreachable,
+       eval-used,
+       exec-used,
+       using-constant-test,
+       bad-super-call,
+       missing-super-argument,
+       slots-on-old-class,
+       super-on-old-class,
+       property-on-old-class,
+       not-an-iterable,
+       not-a-mapping,
+       format-needs-mapping,
+       truncated-format-string,
+       missing-format-string-key,
+       mixed-format-string,
+       too-few-format-args,
+       bad-str-strip-call,
+       too-many-format-args,
+       bad-format-character,
+       format-combined-specification,
+       bad-format-string-key,
+       bad-format-string,
+       missing-format-attribute,
+       missing-format-argument-key,
+       unused-format-string-argument
+       unused-format-string-key,
+       invalid-format-index,
+       bad-indentation,
+       mixed-indentation,
+       unnecessary-semicolon,
+       lowercase-l-suffix,
+       invalid-encoded-data,
+       unpacking-in-except,
+       import-star-module-level,
+       long-suffix,
+       old-octal-literal,
+       old-ne-operator,
+       backtick,
+       old-raise-syntax,
+       metaclass-assignment,
+       next-method-called,
+       dict-iter-method,
+       dict-view-method,
+       indexing-exception,
+       raising-string,
+       using-cmp-argument,
+       cmp-method,
+       coerce-method,
+       delslice-method,
+       getslice-method,
+       hex-method,
+       nonzero-method,
+       t-method,
+       setslice-method,
+       old-division,
+       logging-format-truncated,
+       logging-too-few-args,
+       logging-too-many-args,
+       logging-unsupported-format,
+       logging-format-interpolation,
+       invalid-unary-operand-type,
+       unsupported-binary-operation,
+       not-callable,
+       redundant-keyword-arg,
+       assignment-from-no-return,
+       assignment-from-none,
+       not-context-manager,
+       repeated-keyword,
+       missing-kwoa,
+       no-value-for-parameter,
+       invalid-sequence-index,
+       invalid-slice-index,
+       unexpected-keyword-arg,
+       unsupported-membership-test,
+       unsubscriptable-object,
+       access-member-before-definition,
+       method-hidden,
+       assigning-non-slot,
+       duplicate-bases,
+       inconsistent-mro,
+       inherit-non-class,
+       invalid-slots,
+       invalid-slots-object,
+       no-method-argument,
+       no-self-argument,
+       unexpected-special-method-signature,
+       non-iterator-returned,
+       arguments-differ,
+       signature-differs,
+       bad-staticmethod-argument,
+       non-parent-init-called,
+       bad-except-order,
+       catching-non-exception,
+       bad-exception-context,
+       notimplemented-raised,
+       raising-bad-type,
+       raising-non-exception,
+       misplaced-bare-raise,
+       duplicate-except,
+       broad-except,
+       nonstandard-exception,
+       binary-op-exception,
+       bare-except,
+       not-async-context-manager,
+       yield-inside-async-function
+       unused-import
+
+[REPORTS]
+
+# Set the output format. Available formats are text, parseable, colorized, msvs
+# (visual studio) and html. You can also give a reporter class, eg
+# mypackage.mymodule.MyReporterClass.
+#output-format=text
+output-format=text
+
+# Put messages in a separate file for each module / package specified on the
+# command line instead of printing them on stdout. Reports (if any) will be
+# written in a file name "pylint_global.[txt|html]". This option is deprecated
+# and it will be removed in Pylint 2.0.
+files-output=no
+
+# Tells whether to display a full report or only the messages
+reports=no
+
+# Python expression which should return a note less than 10 (10 is the highest
+# note). You have access to the variables errors warning, statement which
+# respectively contain the number of errors / warnings messages and the total
+# number of statements analyzed. This is used by the global evaluation report
+# (RP0004).
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)
+
+# Template used to display messages. This is a python new-style format string
+# used to format the message information. See doc for all details
+#msg-template=
+
+
+[BASIC]
+
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,j,k,ex,Run,_,v
+
+# Bad variable names which should always be refused, separated by a comma
+bad-names=foo,bar,baz,toto,tutu,tata,list
+
+# Colon-delimited sets of names that determine each other's naming style when
+# the name regexes allow several styles.
+name-group=
+
+# Include a hint for the correct naming format with invalid-name
+include-naming-hint=yes
+
+
+# List of decorators that produce properties, such as abc.abstractproperty. Add
+# to this list to register other decorators that produce valid properties.
+property-classes=abc.abstractproperty
+
+# Regular expression matching correct function names
+function-rgx=[a-z_][a-z0-9_]{5,}$
+
+# Naming hint for function names
+function-name-hint=[a-z_][a-z0-9_]{5,}$
+
+# Regular expression matching correct variable names
+variable-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Naming hint for variable names
+variable-name-hint=[a-z_][a-z0-9_]{2,30}$
+
+# Regular expression matching correct constant names
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+
+# Naming hint for constant names
+const-name-hint=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+
+# Regular expression matching correct attribute names
+attr-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Naming hint for attribute names
+attr-name-hint=[a-z_][a-z0-9_]{2,30}$
+
+# Regular expression matching correct argument names
+argument-rgx=[a-z_][a-z0-9_]{2,30}$
+
+# Naming hint for argument names
+argument-name-hint=[a-z_][a-z0-9_]{2,30}$
+
+# Regular expression matching correct class attribute names
+class-attribute-rgx=([A-Za-z_][A-Za-z0-9_]{2,30}|(__.*__))$
+
+# Naming hint for class attribute names
+class-attribute-name-hint=([A-Za-z_][A-Za-z0-9_]{2,30}|(__.*__))$
+
+# Regular expression matching correct inline iteration names
+inlinevar-rgx=[A-Za-z_][A-Za-z0-9_]*$
+
+# Naming hint for inline iteration names
+inlinevar-name-hint=[A-Za-z_][A-Za-z0-9_]*$
+
+# Regular expression matching correct class names
+class-rgx=[A-Z_][a-zA-Z0-9_]+$
+
+# Naming hint for class names
+class-name-hint=[A-Z_][a-zA-Z0-9_]+$
+
+# Regular expression matching correct module names
+module-rgx=(?=.{2,128}$)([A-Z][A-Z_0-9]+[A-Z0-9](_test)?)$
+
+# Naming hint for module names
+module-name-hint=(?=.{2,128}$)([A-Z][A-Z_0-9]+[A-Z0-9](_test)?)$
+
+# Regular expression matching correct method names
+method-rgx=[a-z_][a-z0-9_]{5,}$
+
+# Naming hint for method names
+method-name-hint=[a-z_][a-z0-9_]{5,}$
+
+# Regular expression which should only match function or class names that do
+# not require a docstring.
+no-docstring-rgx=^_
+
+# Minimum line length for functions/classes that require docstrings, shorter
+# ones are exempt.
+docstring-min-length=-1
+
+
+[ELIF]
+
+# Maximum number of nested blocks for function / method body
+max-nested-blocks=5
+
+
+[TYPECHECK]
+
+# Tells whether missing members accessed in mixin class should be ignored. A
+# mixin class is detected if its name ends with "mixin" (case insensitive).
+ignore-mixin-members=yes
+
+# List of module names for which member attributes should not be checked
+# (useful for modules/projects where namespaces are manipulated during runtime
+# and thus existing member attributes cannot be deduced by static analysis. It
+# supports qualified module names, as well as Unix pattern matching.
+ignored-modules=
+
+# List of class names for which member attributes should not be checked (useful
+# for classes with dynamically set attributes). This supports the use of
+# qualified names.
+ignored-classes=optparse.Values,thread._local,_thread._local
+
+# List of members which are set dynamically and missed by pylint inference
+# system, and so shouldn't trigger E1101 when accessed. Python regular
+# expressions are accepted.
+generated-members=
+
+# List of decorators that produce context managers, such as
+# contextlib.contextmanager. Add to this list to register other decorators that
+# produce valid context managers.
+contextmanager-decorators=contextlib.contextmanager
+
+
+[FORMAT]
+
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Regexp for a line that is allowed to be longer than the limit.
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+
+# Allow the body of an if to be on the same line as the test if there is no
+# else.
+single-line-if-stmt=no
+
+# List of optional constructs for which whitespace checking is disabled. `dict-
+# separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
+# `trailing-comma` allows a space between comma and closing bracket: (a, ).
+# `empty-line` allows space-only lines.
+no-space-check=trailing-comma,dict-separator
+
+# Maximum number of lines in a module
+max-module-lines=1000
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
+# tab).
+indent-string='    '
+
+# Number of spaces of indent required inside a hanging  or continued line.
+indent-after-paren=4
+
+# Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
+expected-line-ending-format=
+
+
+[MISCELLANEOUS]
+
+# List of note tags to take in consideration, separated by a comma.
+notes=FIXME,XXX,TODO
+
+
+[VARIABLES]
+
+# Tells whether we should check for unused import in __init__ files.
+init-import=no
+
+# A regular expression matching the name of dummy variables (i.e. expectedly
+# not used).
+dummy-variables-rgx=(_+[a-zA-Z0-9]*?$)|dummy
+
+# List of additional names supposed to be defined in builtins. Remember that
+# you should avoid to define new builtins when possible.
+additional-builtins=
+
+# List of strings which can identify a callback function by name. A callback
+# name must start or end with one of those strings.
+callbacks=cb_,_cb
+
+# List of qualified module names which can have objects that can redefine
+# builtins.
+redefining-builtins-modules=six.moves,future.builtins
+
+
+[LOGGING]
+
+# Logging modules to check that the string format arguments are in logging
+# function parameter format
+logging-modules=logging
+
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+min-similarity-lines=4
+
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes
+
+# Ignore imports when computing similarities.
+ignore-imports=no
+
+
+[SPELLING]
+
+# Spelling dictionary name. Available dictionaries: none. To make it working
+# install python-enchant package.
+spelling-dict=
+
+# List of comma separated words that should not be checked.
+spelling-ignore-words=
+
+# A path to a file that contains private dictionary; one word per line.
+spelling-private-dict-file=
+
+# Tells whether to store unknown words to indicated private dictionary in
+# --spelling-private-dict-file option instead of raising a message.
+spelling-store-unknown-words=no
+
+
+[IMPORTS]
+
+# Deprecated modules which should not be used, separated by a comma
+deprecated-modules=regsub,TERMIOS,Bastion,rexec
+
+# Create a graph of every (i.e. internal and external) dependencies in the
+# given file (report RP0402 must not be disabled)
+import-graph=
+
+# Create a graph of external dependencies in the given file (report RP0402 must
+# not be disabled)
+ext-import-graph=
+
+# Create a graph of internal dependencies in the given file (report RP0402 must
+# not be disabled)
+int-import-graph=
+
+# Force import order to recognize a module as part of the standard
+# compatibility libraries.
+known-standard-library=
+
+# Force import order to recognize a module as part of a third party library.
+known-third-party=enchant
+
+# Analyse import fallback blocks. This can be used to support both Python 2 and
+# 3 compatible code, which means that the block might have code that exists
+# only in one or another interpreter, leading to false positives when analysed.
+analyse-fallback-blocks=no
+
+
+[DESIGN]
+
+# Maximum number of arguments for function / method
+max-args=7
+
+# Argument names that match this expression will be ignored. Default to name
+# with leading underscore
+ignored-argument-names=_.*
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+# Maximum number of parents for a class (see R0901).
+max-parents=7
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=7
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=0
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=20
+
+# Maximum number of boolean expressions in a if statement
+max-bool-expr=5
+
+
+[CLASSES]
+
+# List of method names used to declare (i.e. assign) instance attributes.
+defining-attr-methods=__init__,__new__,setUp
+
+# List of valid names for the first argument in a class method.
+valid-classmethod-first-arg=cls
+
+# List of valid names for the first argument in a metaclass class method.
+valid-metaclass-classmethod-first-arg=mcs
+
+# List of member names, which should be excluded from the protected access
+# warning.
+exclude-protected=_asdict,_fields,_replace,_source,_make
+
+
+[EXCEPTIONS]
+
+# Exceptions that will emit a warning when being caught. Defaults to
+# "Exception"
+overgeneral-exceptions=Exception
