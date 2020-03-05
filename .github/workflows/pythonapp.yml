@@ -27,9 +27,22 @@ jobs:
         pip install rdklib
         cd python-rdklib
         rdk test-local --all
-    - name: Test with pylint
+    - name: Test with pylint rdklib
       run: |
         pip install pylint
         pip install pylint_runner
         cd python-rdklib
         pylint_runner --rcfile ../.github/pylintrc
+    - name: Test with pylint normal rules
+      run: |
+        pip install pylint
+        pip install pylint_runner
+        cd python
+        pylint_runner --rcfile ../.github/pylintrc
+    - name: Test with RDKlib Linter
+      run: |
+        pip install ./.github/AwsConfigRulesPythonLinter
+        pip install pylint
+        pip install pylint_runner
+        cd python-rdklib
+        pylint_runner --rcfile ../.github/AwsConfigRulesPythonLinter/pylintrc
