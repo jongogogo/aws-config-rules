@@ -13,7 +13,7 @@ class RDKFunctionsChecker(BaseChecker):
     msgs = {
         'C5002': ('rdk functions not up to date: "%s"',
                   'rdk-functions-not-up-to-date',
-                  '''Refer to RDK requirments
+                  '''Refer to RDK requirements
                   '''),
     }
     options = ()
@@ -23,7 +23,7 @@ class RDKFunctionsChecker(BaseChecker):
         if node.name == "lambda_handler":
             if "Evaluator(my_rule)" in  node.as_string():
                 self.add_message(
-                    'rdk-functions-not-up-to-date', node=node, args="No resource type for Evaluator in lambda_handler, example https://code.amazon.com/packages/AwsFalconOrbiter/blobs/903db8f2fc93711f96047943e3be99c0ad7bd74e/--/managed-rule-code/API_GW_ENDPOINT_TYPE_CHECK.py#L80", confidence=HIGH
+                    'rdk-functions-not-up-to-date', node=node, args="No resource type for Evaluator in lambda_handler", confidence=HIGH
                 )
 
     def visit_module(self, node):
