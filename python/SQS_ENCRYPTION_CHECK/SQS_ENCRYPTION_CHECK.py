@@ -8,6 +8,46 @@
 # or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
 # the specific language governing permissions and limitations under the License.
+#
+# Rule Name:
+#   SQS_ENCRYPTION_CHECK
+# Description:
+#   Check whether SQS queue has encryption at rest enabled.
+#
+# Rationale:
+#   Regular checks to ensure that SQS queue has encryption at rest enabled.
+#
+# Indicative Severity:
+#   Medium
+#
+# Trigger:
+#   Periodic checks on AWS::SQS::Queue
+#
+# Reports on:
+#   AWS::SQS::Queue
+#
+# Rule Parameters:
+#   QueueNameStartsWith
+#     (Optional) Specify your SQS queue names to check for. Starting SQS queue names will suffice. For example, your SQS queue names are "processimages" and "extractdocs".
+#                You can specify process, extract as the value for QueueNameStartsWith
+#
+# Scenarios:
+#   Scenario: 1
+#      Given: Rules parameter is provided
+#        And: It contains a parameter key other than QueueNameStartsWith
+#       Then: Return ERROR
+#   Scenario: 2
+#      Given: Rules parameter is provided
+#        And: There is no value specified for QueueNameStartsWith
+#       Then: Checks all SQS queues. Return COMPLIANT with annotation if SQS queues have encryption at rest enabled. Otherwise, return NON_COMPLIANT.
+#   Scenario: 3
+#      Given: Rules parameter is provided and starting SQS queue names values are provided
+#        And: Checks SQS queue names that match the specified starting SQS queue names in QueueNameStartsWith
+#       Then: Checks specific SQS queues. Return COMPLIANT with annotation if SQS queues have encryption at rest enabled. Otherwise, return NON_COMPLIANT.
+#   Scenario: 4
+#      Given: Rules parameter is provided and (optional) starting SQS queue names values are provided
+#        And: No SQS queue names exist or (optional) no matching SQS queue names found.
+#       Then: Return NO RESULTS and print no SQS queues to check for to CloudWatch.
 
 import json
 import sys
@@ -25,7 +65,7 @@ except ImportError:
 ##############
 
 # Define the default resource to report to Config Rules
-DEFAULT_RESOURCE_TYPE = 'AWS::EKS::Cluster'
+DEFAULT_RESOURCE_TYPE = 'AWS::SQS::Queue'
 
 # Set to True to get the lambda to assume the Role attached on the Config Service (useful for cross-account).
 ASSUME_ROLE_MODE = False
@@ -36,39 +76,52 @@ CONFIG_ROLE_TIMEOUT_SECONDS = 900
 #############
 # Main Code #
 #############
+
 def evaluate_compliance(event, configuration_item, valid_rule_parameters):
-    eks_client = get_client('eks', event)
-
-    cluster_list = eks_client.list_clusters()['clusters']
-
-    if not cluster_list:
-        return None
-
     evaluations = []
+    yourqueues = []
+    check = {}
+    sqs = get_client('sqs', event)
+    if valid_rule_parameters:
+        yourqueues = valid_rule_parameters["QueueNameStartsWith"].split(",")
+        for queue in yourqueues:
+            caseinsensitivequeue = queue.lower()
+            response = sqs.list_queues(QueueNamePrefix=caseinsensitivequeue.strip())
+            if "QueueUrls" not in response.keys():
+                print("There are no SQS queues to check for.")
+                return None
+            for qurl in response["QueueUrls"]:
+                check = sqs.get_queue_attributes(QueueUrl=qurl, AttributeNames=['KmsMasterKeyId'],)
+                if "Attributes" in check.keys():
+                    evaluations.append(build_evaluation(qurl, 'COMPLIANT', event, annotation='SQS Queue URL is encrypted with KMS key: '+check["Attributes"]["KmsMasterKeyId"]))
+                else:
+                    evaluations.append(build_evaluation(qurl, 'NON_COMPLIANT', event, annotation='SQS Queue URL is not encrypted.'))
+    else:
+        # Checking all queues. Maximum number is 1000 queues.
+        response = sqs.list_queues()
+        if "QueueUrls" not in response.keys():
+            print("There are no SQS queues to check for.")
+            return None
+        for qurl in response["QueueUrls"]:
+            check = sqs.get_queue_attributes(QueueUrl=qurl, AttributeNames=['KmsMasterKeyId'],)
+            if "Attributes" in check.keys():
+                evaluations.append(build_evaluation(qurl, 'COMPLIANT', event, annotation='SQS Queue URL is encrypted with KMS key: '+check["Attributes"]["KmsMasterKeyId"]))
+            else:
+                evaluations.append(build_evaluation(qurl, 'NON_COMPLIANT', event, annotation='SQS Queue URL is not encrypted.'))
 
-    for cluster in cluster_list:
-        cluster_status = eks_client.describe_cluster(name=cluster)
-        cluster_info = cluster_status['cluster']
-        cluster_vpc = cluster_info['resourcesVpcConfig']
-        public_access = cluster_vpc['endpointPublicAccess']
-        if public_access:
-            evaluations.append(build_evaluation(cluster_info['name'], 'NON_COMPLIANT', event))
-        else:
-            evaluations.append(build_evaluation(cluster_info['name'], 'COMPLIANT', event))
     return evaluations
 
-
 def evaluate_parameters(rule_parameters):
-    """Evaluate the rule parameters dictionary validity. Raise a ValueError for invalid parameters.
+    try:
+        if rule_parameters["QueueNameStartsWith"] != "" and isinstance(rule_parameters["QueueNameStartsWith"], str):
+            valid_rule_parameters = rule_parameters
+        else:
+            print("Please specify a valid starting SQS queue name or multiple queue names separated by comma(,)")
+        return valid_rule_parameters
+    except LookupError:
+        print("Please input QueueNameStartsWith as the key.")
 
-    Return:
-    anything suitable for the evaluate_compliance()
 
-    Keyword arguments:
-    rule_parameters -- the Key/Value dictionary of the Config Rules parameters
-    """
-    valid_rule_parameters = rule_parameters
-    return valid_rule_parameters
 
 ####################
 # Helper Functions #
@@ -330,15 +383,13 @@ def lambda_handler(event, context):
     latest_evaluations = []
 
     if not compliance_result:
-        latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::EKS::Cluster'))
-        #latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::EKS::Cluster'))
+        latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::::Account'))
         evaluations = clean_up_old_evaluations(latest_evaluations, event)
     elif isinstance(compliance_result, str):
         if configuration_item:
             evaluations.append(build_evaluation_from_config_item(configuration_item, compliance_result))
         else:
             evaluations.append(build_evaluation(event['accountId'], compliance_result, event, resource_type=DEFAULT_RESOURCE_TYPE))
-            #evaluations.append(build_evaluation(event['accountId'], compliance_result, event, resource_type=DEFAULT_RESOURCE_TYPE))
     elif isinstance(compliance_result, list):
         for evaluation in compliance_result:
             missing_fields = False

@@ -8,6 +8,32 @@
 # or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
 # the specific language governing permissions and limitations under the License.
+#
+# Rule Name:
+#   CLOUDFRONT_WEBACL_CHECK
+# Description:
+#   Check whether CloudFront Distribution has an associated WebACL.
+#
+# Rationale:
+#   WAF protection in front of CloudFront Distribution.
+#
+# Indicative Severity:
+#   Medium
+#
+# Trigger:
+#   Configuration change on AWS::CloudFront::Distribution
+#
+# Reports on:
+#   AWS::CloudFront::Distribution
+#
+#
+# Scenarios:
+#   Scenario: 1
+#      Given: CloudFront Distribution does not have a WebACL
+#       Then: Return NON_COMPLIANT
+#   Scenario: 2
+#      Given: CloudFront Distribution has a WebACL
+#       Then: Return COMPLIANT
 
 import json
 import sys
@@ -25,7 +51,7 @@ except ImportError:
 ##############
 
 # Define the default resource to report to Config Rules
-DEFAULT_RESOURCE_TYPE = 'AWS::EKS::Cluster'
+DEFAULT_RESOURCE_TYPE = "AWS::CloudFront::Distribution"
 
 # Set to True to get the lambda to assume the Role attached on the Config Service (useful for cross-account).
 ASSUME_ROLE_MODE = False
@@ -36,27 +62,29 @@ CONFIG_ROLE_TIMEOUT_SECONDS = 900
 #############
 # Main Code #
 #############
+
 def evaluate_compliance(event, configuration_item, valid_rule_parameters):
-    eks_client = get_client('eks', event)
+    """Form the evaluation(s) to be return to Config Rules
 
-    cluster_list = eks_client.list_clusters()['clusters']
+    Return either:
+    None -- when no result needs to be displayed
+    a string -- either COMPLIANT, NON_COMPLIANT or NOT_APPLICABLE
+    a dictionary -- the evaluation dictionary, usually built by build_evaluation_from_config_item()
+    a list of dictionary -- a list of evaluation dictionary , usually built by build_evaluation()
 
-    if not cluster_list:
-        return None
+    Keyword arguments:
+    event -- the event variable given in the lambda handler
+    configuration_item -- the configurationItem dictionary in the invokingEvent
+    valid_rule_parameters -- the output of the evaluate_parameters() representing validated parameters of the Config Rule
 
-    evaluations = []
-
-    for cluster in cluster_list:
-        cluster_status = eks_client.describe_cluster(name=cluster)
-        cluster_info = cluster_status['cluster']
-        cluster_vpc = cluster_info['resourcesVpcConfig']
-        public_access = cluster_vpc['endpointPublicAccess']
-        if public_access:
-            evaluations.append(build_evaluation(cluster_info['name'], 'NON_COMPLIANT', event))
-        else:
-            evaluations.append(build_evaluation(cluster_info['name'], 'COMPLIANT', event))
-    return evaluations
-
+    Advanced Notes:
+    1 -- if a resource is deleted and generate a configuration change with ResourceDeleted status, the Boilerplate code will put a NOT_APPLICABLE on this resource automatically.
+    2 -- if a None or a list of dictionary is returned, the old evaluation(s) which are not returned in the new evaluation list are returned as NOT_APPLICABLE by the Boilerplate code
+    3 -- if None or an empty string, list or dict is returned, the Boilerplate code will put a "shadow" evaluation to feedback that the evaluation took place properly
+    """
+    if configuration_item["configuration"]["distributionConfig"]["webACLId"] == "":
+        return build_evaluation_from_config_item(configuration_item, 'NON_COMPLIANT', annotation='CloudFront Distribution does not have a WebACL.')
+    return build_evaluation_from_config_item(configuration_item, 'COMPLIANT')
 
 def evaluate_parameters(rule_parameters):
     """Evaluate the rule parameters dictionary validity. Raise a ValueError for invalid parameters.
@@ -330,15 +358,13 @@ def lambda_handler(event, context):
     latest_evaluations = []
 
     if not compliance_result:
-        latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::EKS::Cluster'))
-        #latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::EKS::Cluster'))
+        latest_evaluations.append(build_evaluation(event['accountId'], "NOT_APPLICABLE", event, resource_type='AWS::::Account'))
         evaluations = clean_up_old_evaluations(latest_evaluations, event)
     elif isinstance(compliance_result, str):
         if configuration_item:
             evaluations.append(build_evaluation_from_config_item(configuration_item, compliance_result))
         else:
             evaluations.append(build_evaluation(event['accountId'], compliance_result, event, resource_type=DEFAULT_RESOURCE_TYPE))
-            #evaluations.append(build_evaluation(event['accountId'], compliance_result, event, resource_type=DEFAULT_RESOURCE_TYPE))
     elif isinstance(compliance_result, list):
         for evaluation in compliance_result:
             missing_fields = False
