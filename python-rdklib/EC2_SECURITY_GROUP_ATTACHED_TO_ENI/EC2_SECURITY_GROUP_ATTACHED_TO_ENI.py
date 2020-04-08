@@ -41,7 +41,7 @@ APPLICABLE_RESOURCES = ['AWS::EC2::SecurityGroup', 'AWS::CodeBuild::Project']
 
 class EC2_SECURITY_GROUP_ATTACHED_TO_ENI(ConfigRule):
     def evaluate_change(self, event, client_factory, configuration_item, valid_rule_parameters):
-        
+
         if configuration_item['resourceType'] == 'AWS::CodeBuild::Project':
             if configuration_item['configuration'].get('vpcConfig'):
                 eval_list_sg = []
@@ -49,19 +49,19 @@ class EC2_SECURITY_GROUP_ATTACHED_TO_ENI(ConfigRule):
                     eval_list_sg.append(Evaluation(ComplianceType.COMPLIANT, sg_id, 'AWS::EC2::SecurityGroup'))
                 return eval_list_sg
 
-        if configuration_item['resourceType'] == 'AWS::EC2::SecurityGroup':    
-            if configuration_item['configuration']['groupName'] == 'default':
-                return [Evaluation(ComplianceType.NOT_APPLICABLE)]
-            for relation in configuration_item['relationships']:
-                #resourceId for eni: 'eni-123456abcdefghi12'
-                if relation['resourceId'][0:3] == 'eni':
-                    return [Evaluation(ComplianceType.COMPLIANT)]
-            
-            if is_security_group_attached_codebuild(client_factory, configuration_item['resourceId']):
-                return [Evaluation(ComplianceType.COMPLIANT, annotation='This Amazon EC2 security group is associated with at least one AWS CodeBuild project.')]
+        # CI is 'AWS::EC2::SecurityGroup':
+        if configuration_item['configuration']['groupName'] == 'default':
+            return [Evaluation(ComplianceType.NOT_APPLICABLE)]
+        for relation in configuration_item['relationships']:
+            #resourceId for eni: 'eni-123456abcdefghi12'
+            if relation['resourceId'][0:3] == 'eni':
+                return [Evaluation(ComplianceType.COMPLIANT)]
 
-            return [Evaluation(ComplianceType.NON_COMPLIANT, annotation='This Amazon EC2 security group is not associated with an EC2 instance or an ENI.')]
-    
+        if is_security_group_attached_codebuild(client_factory, configuration_item['resourceId']):
+            return [Evaluation(ComplianceType.COMPLIANT, annotation='This Amazon EC2 security group is associated with at least one AWS CodeBuild project.')]
+
+        return [Evaluation(ComplianceType.NON_COMPLIANT, annotation='This Amazon EC2 security group is not associated with an EC2 instance or an ENI.')]
+
 def is_security_group_attached_codebuild(client_factory, sg_id):
 
     query = "SELECT COUNT(*) WHERE  resourceType = 'AWS::CodeBuild::Project' AND configuration.vpcConfig.securityGroupIds = '{}'".format(sg_id)

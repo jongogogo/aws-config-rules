@@ -59,7 +59,6 @@ class ComplianceTest(unittest.TestCase):
         resp_expected = [Evaluation(ComplianceType.NON_COMPLIANT, annotation='This Amazon EC2 security group is not associated with an EC2 instance or an ENI.')]
         rdklibtest.assert_successful_evaluation(self, response, resp_expected)
 
-
     # Scenario 3: Security group is not associated with at one or more CodeBuild project
     def test_3_evaluatechange_sgassociated_one_codebuild_compliant(self):
         config_item = {
@@ -79,7 +78,7 @@ class ComplianceTest(unittest.TestCase):
         response = RULE.evaluate_change({}, CLIENT_FACTORY, config_item, {})
         resp_expected = [Evaluation(ComplianceType.COMPLIANT, annotation='This Amazon EC2 security group is associated with at least one AWS CodeBuild project.')]
         rdklibtest.assert_successful_evaluation(self, response, resp_expected)
-        
+
         CONFIG_CLIENT_MOCK.select_resource_config.return_value = {'Results': ['{"COUNT(*)": 3}']}
         response = RULE.evaluate_change({}, CLIENT_FACTORY, config_item, {})
         resp_expected = [Evaluation(ComplianceType.COMPLIANT, annotation='This Amazon EC2 security group is associated with at least one AWS CodeBuild project.')]
