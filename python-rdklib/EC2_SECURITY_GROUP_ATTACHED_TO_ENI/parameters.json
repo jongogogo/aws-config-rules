@@ -1,0 +1,12 @@
+{
+  "Version": "1.0", 
+  "Parameters": {
+    "CodeKey": "EC2_SECURITY_GROUP_ATTACHED_TO_ENI.zip", 
+    "SourceRuntime": "python3.6-lib", 
+    "RuleName": "EC2_SECURITY_GROUP_ATTACHED_TO_ENI", 
+    "SourceEvents": "AWS::EC2::SecurityGroup,AWS::CodeBuild::Project", 
+    "OptionalParameters": "{}", 
+    "InputParameters": "{}"
+  }, 
+  "Tags": "[]"
+}

@@ -21,7 +21,7 @@ class RDKFunctionsChecker(BaseChecker):
 
     def visit_functiondef(self, node):
         if node.name == "lambda_handler":
-            if "Evaluator(my_rule)" in  node.as_string():
+            if "Evaluator(my_rule)" in  node.as_string() and node.doc is not None and re.search('Configuration Change*None$', node.doc, re.M):
                 self.add_message(
                     'rdk-functions-not-up-to-date', node=node, args="No resource type for Evaluator in lambda_handler", confidence=HIGH
                 )
